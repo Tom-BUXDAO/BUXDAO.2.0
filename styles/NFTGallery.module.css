@@ -1,0 +1,76 @@
+.scene {
+  width: 200px;
+  height: 200px;
+  border: 1px solid #CCC;
+  margin: 80px auto;
+  perspective: 400px;
+}
+
+.cube {
+  width: 200px;
+  height: 200px;
+  position: relative;
+  transform-style: preserve-3d;
+  transform: translateZ(-100px);
+  transition: transform 1s;
+}
+
+.cubeFace {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border: 2px solid theme('colors.neon-blue');
+  line-height: 200px;
+  font-size: 40px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+}
+
+.front  { background: hsla(  0, 100%, 50%, 0.7); }
+.right  { background: hsla( 60, 100%, 50%, 0.7); }
+.back   { background: hsla(120, 100%, 50%, 0.7); }
+.left   { background: hsla(180, 100%, 50%, 0.7); }
+.top    { background: hsla(240, 100%, 50%, 0.7); }
+.bottom { background: hsla(300, 100%, 50%, 0.7); }
+
+.front  { transform: rotateY(  0deg) translateZ(100px); }
+.right  { transform: rotateY( 90deg) translateZ(100px); }
+.back   { transform: rotateY(180deg) translateZ(100px); }
+.left   { transform: rotateY(-90deg) translateZ(100px); }
+.top    { transform: rotateX( 90deg) translateZ(100px); }
+.bottom { transform: rotateX(-90deg) translateZ(100px); }
+
+.showFront  { transform: translateZ(-100px) rotateY(   0deg); }
+.showRight  { transform: translateZ(-100px) rotateY( -90deg); }
+.showBack   { transform: translateZ(-100px) rotateY(-180deg); }
+.showLeft   { transform: translateZ(-100px) rotateY(  90deg); }
+.showTop    { transform: translateZ(-100px) rotateX( -90deg); }
+.showBottom { transform: translateZ(-100px) rotateX(  90deg); }
+
+.radioGroup {
+  margin: 20px 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.radioGroup input[type="radio"] {
+  display: none;
+}
+
+.radioGroup label {
+  cursor: pointer;
+  padding: 5px 10px;
+  background-color: theme('colors.surface');
+  color: theme('colors.text');
+  margin: 5px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.radioGroup input[type="radio"]:checked + label {
+  background-color: theme('colors.neon-blue');
+  color: theme('colors.background');
+}

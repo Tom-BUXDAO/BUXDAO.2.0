@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800&family=VT323&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-background text-text;
+}
+
+.page {
+  @apply max-w-7xl mx-auto px-4 py-8;
+}
+
+/* Add some custom utility classes for neon effects */
+.neon-text {
+  @apply text-neon-blue;
+  text-shadow: 0 0 5px theme('colors.neon-blue'), 0 0 10px theme('colors.neon-blue');
+}
+
+.neon-border {
+  @apply border-neon-pink;
+  box-shadow: 0 0 5px theme('colors.neon-pink'), 0 0 10px theme('colors.neon-pink');
+}
+
+/* Adjust spacing for main content */
+main {
+  @apply py-8;
+}
+
+/* Adjust grid gap */
+.grid {
+  @apply gap-4;
+}
