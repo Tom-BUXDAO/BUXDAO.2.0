@@ -1,8 +1,8 @@
+import React, { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState, useRef, useEffect } from 'react'
 
-function NavItem({ icon, text, onClick, isActive, buttonSize }) {
+const NavItem = React.forwardRef(({ icon, text, onClick, isActive, buttonSize }, ref) => {
   return (
     <li>
       <button 
@@ -19,7 +19,9 @@ function NavItem({ icon, text, onClick, isActive, buttonSize }) {
       </button>
     </li>
   )
-}
+})
+
+NavItem.displayName = 'NavItem'
 
 function Header({ setCurrentWall, currentWall }) {
   const [isOpen, setIsOpen] = useState(false)
@@ -51,19 +53,20 @@ function Header({ setCurrentWall, currentWall }) {
   return (
     <header className="absolute top-0 left-0 right-0 bg-primary bg-opacity-80 text-white w-full z-10">
       <div className="w-full mx-auto px-[3vw]">
-        <div className="flex items-center justify-between h-[80px] md:h-[120px]">
+        <div className="flex items-center justify-between h-[120px]">
           <Link href="/" className="flex items-center">
-            <div className="relative flex items-center justify-center w-[120px] h-[80px] md:w-[180px] md:h-[120px] ml-[3vw]">
+            <div className="relative flex items-center justify-center h-[120px] ml-[3vw]">
               <div className="absolute inset-0 flex items-center justify-center">
                 <Image 
                   src="/images/logo.png" 
                   alt="BUX DAO Logo" 
-                  layout="fill"
-                  objectFit="contain"
+                  fill
+                  style={{ objectFit: 'contain' }}
+                  sizes="120px"
                   className="z-0 filter blur-[2px] opacity-50 transition-all duration-300"
                 />
               </div>
-              <span className="relative z-10 text-xl md:text-3xl lg:text-4xl font-bold text-transparent bg-clip-text whitespace-nowrap" style={{
+              <span className="relative z-10 text-3xl lg:text-4xl font-bold text-transparent bg-clip-text whitespace-nowrap" style={{
                 WebkitTextStroke: '2px yellow',
                 textStroke: '2px yellow'
               }}>
