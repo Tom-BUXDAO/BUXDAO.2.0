@@ -2,54 +2,11 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import { Text } from '@react-three/drei';
 import * as THREE from 'three';
+import HomeWall from './HomeWall';
 
 const Wall = ({ position, rotation, content }) => {
-  const containerMaterial = new THREE.ShaderMaterial({
-    uniforms: {
-      color: { value: new THREE.Color('#ffff00') }, // Yellow
-    },
-    vertexShader: `
-      varying vec2 vUv;
-      void main() {
-        vUv = uv;
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-      }
-    `,
-    fragmentShader: `
-      uniform vec3 color;
-      varying vec2 vUv;
-      void main() {
-        float borderWidth = 0.005;
-        float cornerRadius = 0.05;
-        float margin = 0.025;
-        
-        vec2 uv = vUv;
-        vec2 center = vec2(0.5);
-        vec2 d = abs(uv - center) - 0.5 + cornerRadius + margin;
-        float distance = length(max(d, 0.0)) + min(max(d.x, d.y), 0.0) - cornerRadius;
-        
-        float alpha = 1.0 - smoothstep(0.0, borderWidth, abs(distance));
-        
-        float glow = exp(-distance * 10.0) * 0.5;
-        vec3 finalColor = mix(color, vec3(1.0), glow);
-        
-        gl_FragColor = vec4(finalColor, alpha);
-      }
-    `,
-    transparent: true,
-    side: THREE.DoubleSide,
-  });
-
   return (
     <group position={position} rotation={rotation}>
-      <mesh>
-        <planeGeometry args={[10, 8]} />
-        <meshBasicMaterial transparent opacity={0} />
-      </mesh>
-      <mesh position={[0, 0, 0.01]}>
-        <planeGeometry args={[9.5, 7.5]} />
-        <primitive object={containerMaterial} attach="material" />
-      </mesh>
       <Text
         position={[0, 0, 0.02]}
         fontSize={0.5}
@@ -219,7 +176,7 @@ const VREnvironment = ({ currentWall, setCurrentWall }) => {
   useEffect(() => {
     const wall = walls.find(w => w.content === currentWall);
     if (wall) {
-      setTargetRotation(-wall.angle); // Note the negative sign here
+      setTargetRotation(-wall.angle);
     }
   }, [currentWall]);
 
@@ -227,14 +184,16 @@ const VREnvironment = ({ currentWall, setCurrentWall }) => {
 
   return (
     <div className="vr-container" style={{ width: '100%', height: '100%' }}>
-      <Canvas camera={{ fov: 75 }}>
+      <Canvas camera={{ fov: 75, position: [0, 0, 0] }}>
         <CameraController setCurrentWall={setCurrentWall} currentWall={currentWall} targetRotation={targetRotation} />
         <ambientLight intensity={0.5} />
         <pointLight position={[0, 0, 0]} intensity={0.8} />
         {walls.map((wall) => {
           const x = Math.sin(wall.angle) * radius;
           const z = -Math.cos(wall.angle) * radius;
-          return (
+          return wall.content === 'Home' ? (
+            <HomeWall key={wall.id} position={[x, 0, z]} rotation={[0, -wall.angle, 0]} />
+          ) : (
             <Wall
               key={wall.id}
               position={[x, 0, z]}

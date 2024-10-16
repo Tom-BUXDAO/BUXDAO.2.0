@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BUX DAO Home Wall Content</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Quantico:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Quantico', sans-serif;
+            background-color: #000;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .wall-content {
+            max-width: 950px;
+            height: 750px;
+            border: 2px solid #00ffff;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .logo-container-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 120px;
+        }
+        .logo-container {
+            display: inline-flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .welcome-text {
+            font-family: 'Quantico', sans-serif;
+            font-size: 40px;
+            font-weight: 700;
+            color: #00ffff;
+            white-space: nowrap;
+        }
+        .logo-text {
+            font-family: 'Poppins', sans-serif;
+            font-size: 56px;
+            font-weight: 800;
+            color: transparent;
+            -webkit-text-stroke: 2px yellow;
+            text-stroke: 2px yellow;
+            white-space: nowrap;
+            -webkit-background-clip: text;
+            background-clip: text;
+            position: relative;
+        }
+        .logo-wrapper {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .logo-background {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1.15);
+            width: 115%;
+            height: 115%;
+            background-image: url('/images/logo.png');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: blur(2px);
+            opacity: 0.5;
+            z-index: -1;
+        }
+        .info-icon {
+            font-size: 28px;
+            color: #00ffff;
+            white-space: nowrap;
+        }
+        .main-content {
+            text-align: center;
+            font-size: 24px; /* Increased from default */
+            line-height: 1.5;
+        }
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            font-size: 20px;
+        }
+        .social-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #00ffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #000;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0.3s;
+            position: relative; /* Added for tooltip positioning */
+        }
+        .social-button:hover {
+            background-color: #fff;
+            color: #00ffff;
+        }
+        .social-button i {
+            font-size: 24px;
+        }
+        .social-button .tooltip {
+            visibility: hidden;
+            width: 120px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .social-button:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+        .footer {
+            text-align: center;
+            color: #ff00ff;
+            font-size: 28px; /* Increased from default */
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="wall-content">
+        <div class="logo-container-wrapper">
+            <div class="logo-container">
+                <span class="welcome-text">Welcome to</span>
+                <div class="logo-wrapper">
+                    <div class="logo-background"></div>
+                    <span class="logo-text">BUX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DAO</span>
+                </div>
+                <i class="fas fa-info-circle info-icon"></i>
+            </div>
+        </div>
+        <div class="main-content">
+            <p>We are a community owned enterprise, offering our members a variety of holder benefits designed to generate passive income.</p>
+            <p>Our $BUX token is backed by our community liquidity pool allowing holders to cash out the tokens they earn.</p>
+        </div>
+        <div class="social-links">
+            <p>Join our discord for more info on giveaways, raffles, poker events and more…</p>
+            <a href="#" target="_blank" class="social-button" aria-label="Join our Discord server">
+                <i class="fab fa-discord" aria-hidden="true"></i>
+                <span class="tooltip">Join Discord</span>
+            </a>
+            <a href="#" target="_blank" class="social-button" aria-label="Follow us on Twitter">
+                <i class="fab fa-twitter" aria-hidden="true"></i>
+                <span class="tooltip">Follow on Twitter</span>
+            </a>
+        </div>
+        <div class="footer">
+            <p>Find out how you can start earning TODAY!</p>
+        </div>
+    </div>
+</body>
+</html>

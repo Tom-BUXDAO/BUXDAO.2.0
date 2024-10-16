@@ -1,91 +1,59 @@
 import React from 'react';
-import { Text, Plane, Html } from '@react-three/drei';
-import { FaDiscord, FaTwitter } from 'react-icons/fa';
+import { Plane } from '@react-three/drei';
+import HomeWallContent from './HomeWallContent';
+import * as THREE from 'three';
 
 const TestHomeWall = () => {
   const wallWidth = 9.5;
   const wallHeight = 7.5;
 
-  const handleSocialClick = (platform) => {
-    console.log(`${platform} clicked`);
-    if (platform === 'discord') {
-      window.open('https://discord.gg/your-discord-link', '_blank');
-    } else if (platform === 'twitter') {
-      window.open('https://twitter.com/your-twitter-handle', '_blank');
-    }
-  };
-
-  const textProps = {
-    fontSize: 0.25,
-    maxWidth: wallWidth - 1,
-    lineHeight: 1.5,
-    textAlign: 'center',
-    anchorX: 'center',
-    // Removed the font property to use the default font
-  };
+  const borderMaterial = new THREE.ShaderMaterial({
+    uniforms: {
+      color: { value: new THREE.Color('#ffff00') }, // Yellow
+    },
+    vertexShader: `
+      varying vec2 vUv;
+      void main() {
+        vUv = uv;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
+    `,
+    fragmentShader: `
+      uniform vec3 color;
+      varying vec2 vUv;
+      void main() {
+        float borderWidth = 0.005;
+        float cornerRadius = 0.05;
+        float margin = 0.025;
+        
+        vec2 uv = vUv;
+        vec2 center = vec2(0.5);
+        vec2 d = abs(uv - center) - 0.5 + cornerRadius + margin;
+        float distance = length(max(d, 0.0)) + min(max(d.x, d.y), 0.0) - cornerRadius;
+        
+        float alpha = 1.0 - smoothstep(0.0, borderWidth, abs(distance));
+        
+        float glow = exp(-distance * 10.0) * 0.5;
+        vec3 finalColor = mix(color, vec3(1.0), glow);
+        
+        gl_FragColor = vec4(finalColor, alpha);
+      }
+    `,
+    transparent: true,
+    side: THREE.DoubleSide,
+  });
 
   return (
-    <group>
+    <group position={[0, 0, -8.66]}>
       <Plane args={[wallWidth, wallHeight]} position={[0, 0, -0.01]}>
-        <meshBasicMaterial color="#000000" opacity={0.8} transparent />
+        <meshBasicMaterial color="#000000" opacity={0.1} transparent />
       </Plane>
-      <group position={[0, 0, 0.01]}>
-        <Text
-          {...textProps}
-          position={[0, wallHeight / 2 - 0.5, 0]}
-          fontSize={0.5}
-          color="#00ffff"
-          anchorY="top"
-        >
-          Welcome to BUX DAO
-        </Text>
-        <Text
-          {...textProps}
-          position={[0, 1.5, 0]}
-          color="white"
-          anchorY="top"
-        >
-          We are a community owned enterprise, offering our members a variety of holder benefits designed to generate passive income.{'\n\n'}
-          Our $BUX token is backed by our community liquidity pool allowing holders to cash out the tokens they earn.
-        </Text>
-        <Text
-          {...textProps}
-          position={[0, -0.5, 0]}
-          color="white"
-          anchorY="middle"
-        >
-          Join our discord for more info on giveaways, raffles, poker events and more…
-        </Text>
-        <Html
-          position={[0, -1.2, 0]}
-          transform
-          occlude
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <FaDiscord
-            size="0.5"
-            style={{ marginRight: '0.2em', cursor: 'pointer' }}
-            onClick={() => handleSocialClick('discord')}
-          />
-          <FaTwitter
-            size="0.5"
-            style={{ cursor: 'pointer' }}
-            onClick={() => handleSocialClick('twitter')}
-          />
-        </Html>
-        <Text
-          {...textProps}
-          position={[0, -wallHeight / 2 + 0.5, 0]}
-          fontSize={0.4}
-          color="#ff00ff"
-          anchorY="bottom"
-        >
-          Find out how you can start earning.
-        </Text>
+      <mesh position={[0, 0, 0]}>
+        <planeGeometry args={[wallWidth, wallHeight]} />
+        <primitive object={borderMaterial} attach="material" />
+      </mesh>
+      <group position={[0, 0, 0.01]} scale={[0.01, 0.01, 0.01]}>
+        <HomeWallContent />
       </group>
     </group>
   );

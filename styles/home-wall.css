@@ -1,0 +1,118 @@
+.wall-content {
+  font-family: 'Quantico', 'Poppins', sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.logo-container-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px;
+}
+
+.logo-container {
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.welcome-text {
+  font-size: 40px;
+  font-weight: 700;
+  color: #00ffff;
+  white-space: nowrap;
+}
+
+.logo-text {
+  font-family: 'Poppins', sans-serif;
+  font-size: 56px;
+  font-weight: 800;
+  color: transparent;
+  -webkit-text-stroke: 2px yellow;
+  white-space: nowrap;
+  -webkit-background-clip: text;
+  background-clip: text;
+  position: relative;
+}
+
+/* Remove or comment out these lines */
+/* text-stroke: 2px yellow; */
+/* text-stroke-width: 2px; */
+/* text-stroke-color: yellow; */
+
+.logo-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.logo-background {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1.15);
+  width: 115%;
+  height: 115%;
+  background-image: url('/images/logo.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(2px);
+  opacity: 0.5;
+  z-index: -1;
+}
+
+.info-icon {
+  font-size: 28px;
+  color: #00ffff;
+  white-space: nowrap;
+}
+
+.main-content {
+  text-align: center;
+  font-size: 24px;
+  line-height: 1.5;
+}
+
+.social-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  font-size: 20px;
+}
+
+.social-button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #00ffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #000;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+  position: relative;
+}
+
+.social-button:hover {
+  background-color: #fff;
+  color: #00ffff;
+}
+
+.social-button i {
+  font-size: 24px;
+}
+
+.footer {
+  text-align: center;
+  color: #ff00ff;
+  font-size: 28px;
+  font-weight: bold;
+}

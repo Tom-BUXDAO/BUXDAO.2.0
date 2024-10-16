@@ -1,0 +1,146 @@
+.wallContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  font-family: 'Quantico', 'Poppins', sans-serif;
+}
+
+.logoContainerWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px;
+}
+
+.logoContainer {
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.welcomeText {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #00ffff;
+  white-space: nowrap;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+}
+
+.logoWrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.logoBackground {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 160px;
+  height: 160px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  filter: blur(2px);
+  opacity: 0.7;
+}
+
+.logoText {
+  font-family: 'Poppins', sans-serif;
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: transparent;
+  -webkit-text-stroke: 2px yellow;
+  white-space: nowrap;
+  -webkit-background-clip: text;
+  background-clip: text;
+  position: relative;
+  text-shadow: 0 0 10px rgba(255, 255, 0, 0.7);
+  z-index: 1;
+}
+
+.infoIcon {
+  font-size: 1.75rem;
+  color: #00ffff;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.infoIcon:hover {
+  transform: scale(1.1);
+}
+
+.mainContent {
+  text-align: center;
+  font-size: 1.5rem;
+  line-height: 1.5;
+  margin: 2rem 0;
+}
+
+.socialLinks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1.25rem;
+}
+
+.socialButtons {
+  display: flex;
+  gap: 1rem;
+}
+
+.socialButton {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background-color: #00ffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #000;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.socialButton:hover {
+  background-color: #fff;
+  color: #00ffff;
+  transform: scale(1.1);
+}
+
+.socialButton i {
+  font-size: 1.5rem;
+}
+
+.tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.socialButton:hover .tooltip {
+  opacity: 1;
+}
+
+.footer {
+  color: #ff00ff;
+  font-size: 1.75rem;
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(255, 0, 255, 0.7);
+  text-align: center;
+}

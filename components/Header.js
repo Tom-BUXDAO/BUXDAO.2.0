@@ -58,18 +58,22 @@ function Header({ setCurrentWall, currentWall }) {
             <div className="relative flex items-center justify-center h-[120px] ml-[3vw]">
               <div className="absolute inset-0 flex items-center justify-center">
                 <Image 
+                  key="logo-image"
                   src="/images/logo.png" 
                   alt="BUX DAO Logo" 
                   fill
+                  priority
                   style={{ objectFit: 'contain' }}
                   sizes="120px"
                   className="z-0 filter blur-[2px] opacity-50 transition-all duration-300"
                 />
               </div>
-              <span className="relative z-10 text-3xl lg:text-4xl font-bold text-transparent bg-clip-text whitespace-nowrap" style={{
-                WebkitTextStroke: '2px yellow',
-                textStroke: '2px yellow'
-              }}>
+              <span 
+                className="relative z-10 text-3xl lg:text-4xl font-bold text-transparent bg-clip-text whitespace-nowrap" 
+                style={{
+                  WebkitTextStroke: '2px yellow',
+                }}
+              >
                 BUX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DAO
               </span>
             </div>

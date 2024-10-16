@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Spades Game</title>
+    <link rel="stylesheet" href="game.css">
+</head>
+<body>
+    <div id="game-screen">
+        <div id="inner-game-screen">
+            <button id="start-button">START</button>
+            <div id="good-luck" class="message">GOOD LUCK</div>
+            <div id="round-1" class="message">ROUND 1</div>
+            <div id="score-popup" class="popup">
+                <div class="popup-content">
+                    <h2 id="title">ROUND SUMMARY</h2>
+                    <table id="score-table">
+                        <tbody>
+                            <tr id="bid-made">
+                                <td></td>
+                                <td>MADE/BID</td>
+                                <td></td>
+                            </tr>
+                            <tr id="round-scores">
+                                <td></td>
+                                <td>SCORES</td>
+                                <td></td>
+                            </tr>
+                            <tr id="total-scores">
+                                <td></td>
+                                <td>TOTAL</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button id="close-popup">CLOSE</button>
+                </div>
+            </div>
+            <div class="score">
+                <div id="team1-score">0</div>
+                <div id="team1-bags" class="team-bags">0</div>
+                <div id="team2-bags" class="team-bags">0</div>
+                <div id="team2-score">0</div>
+            </div>
+            <div id="placeholder1" class="placeholder">
+                <div id="player1" class="player">
+                    <img src="images/player1.png" alt="Player 1">
+                    <div class="player-info">
+                        <div id="player-name">Hero</div>
+                        <div id="win-rate">win - 66.1%</div>
+                    </div>
+                    <div class="bid">
+                        <div id="player1-made">0</div>
+                        <div>/</div>
+                        <div id="player1-bid">0</div>
+                    </div>
+                    <div class="dealer-button">D</div>
+                </div>
+            </div>
+            <div id="placeholder2" class="placeholder">
+                <div id="player2" class="player">
+                    <img src="images/player2.png" alt="Player 2">
+                    <div class="player-info">
+                        <div id="player-name">Comp</div>
+                        <div id="win-rate">win - 50.0%</div>
+                    </div>
+                    <div class="bid">
+                        <div id="player2-made">0</div>
+                        <div>/</div>
+                        <div id="player2-bid">0</div>
+                    </div>
+                    <div class="dealer-button">D</div>
+                </div>
+            </div>
+            <div id="placeholder3" class="placeholder">
+                <div id="player3" class="player">
+                    <img src="images/player3.png" alt="Player 3">
+                    <div class="player-info">
+                        <div id="player-name">Comp</div>
+                        <div id="win-rate">win - 50.0%</div>
+                    </div>
+                    <div class="bid">
+                        <div id="player3-made">0</div>
+                        <div>/</div>
+                        <div id="player3-bid">0</div>
+                    </div>
+                    <div class="dealer-button">D</div>
+                </div>
+            </div>
+            <div id="placeholder4" class="placeholder">
+                <div id="player4" class="player">
+                    <img src="images/player4.png" alt="Player 4">
+                    <div class="player-info">
+                        <div id="player-name">Comp</div>
+                        <div id="win-rate">win - 50.0%</div>
+                    </div>
+                    <div class="bid">
+                        <div id="player4-made">0</div>
+                        <div>/</div>
+                        <div id="player4-bid">0</div>
+                    </div>
+                    <div class="dealer-button">D</div>
+                </div>
+            </div>
+            <img id="logo" src="images/logo.png" alt="Game Logo">
+            <div id="player1-hand">
+                <div id="player1-cards"></div>
+            </div>
+            <div id="trick-area">
+                <div id="player1-trick" class="player-trick"></div>
+                <div id="player2-trick" class="player-trick"></div>
+                <div id="player3-trick" class="player-trick"></div>
+                <div id="player4-trick" class="player-trick"></div>
+            </div>
+        </div>
+        <div id="bid-menu" class="hidden">
+            <div id="title">SELECT YOUR BID</div>
+            <div class="bid-options">
+                <div class="bid-option" data-bid="0">Nil</div>
+                <div class="bid-option" data-bid="1">1</div>
+                <div class="bid-option" data-bid="2">2</div>
+                <div class="bid-option" data-bid="3">3</div>
+                <div class="bid-option" data-bid="4">4</div>
+                <div class="bid-option" data-bid="5">5</div>
+                <div class="bid-option" data-bid="6">6</div>
+                <div class="bid-option" data-bid="7">7</div>
+                <div class="bid-option" data-bid="8">8</div>
+                <div class="bid-option" data-bid="9">9</div>
+                <div class="bid-option" data-bid="10">10</div>
+                <div class="bid-option" data-bid="11">11</div>
+                <div class="bid-option" data-bid="12">12</div>
+                <div class="bid-option" data-bid="13">13</div>
+            </div>
+            <button id="submit-bid" disabled>BID</button>
+        </div>
+        <div id="winner-announcement" style="display: none;"></div>
+    </div>
+    <script src="game.js"></script>
+</body>
+</html>
+
+

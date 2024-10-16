@@ -23,6 +23,7 @@ module.exports = {
       },
       textStroke: {
         '2': '2px',
+        'yellow': '2px yellow',
       },
       textStrokeColor: {
         'yellow-400': '#FBBF24',
@@ -71,6 +72,14 @@ module.exports = {
         }
       })
       addUtilities(textShadowUtilities, variants('textShadow'))
+    },
+    function({ addUtilities }) {
+      const newUtilities = {
+        '.text-stroke-yellow': {
+          '-webkit-text-stroke': '2px yellow',
+        },
+      }
+      addUtilities(newUtilities, ['responsive', 'hover'])
     },
   ],
 }
