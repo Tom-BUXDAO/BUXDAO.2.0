@@ -4,23 +4,24 @@
   justify-content: space-between;
   height: 100%;
   font-family: 'Quantico', 'Poppins', sans-serif;
+  color: white;
 }
 
 .logoContainerWrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 120px;
+  height: 105px;
 }
 
 .logoContainer {
   display: inline-flex;
   align-items: center;
-  gap: 20px;
+  gap: 18px;
 }
 
 .welcomeText {
-  font-size: 2.5rem;
+  font-size: 2.46rem;
   font-weight: 700;
   color: #00ffff;
   white-space: nowrap;
@@ -32,7 +33,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 18px;
 }
 
 .logoBackground {
@@ -40,8 +41,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 160px;
-  height: 160px;
+  width: 141px;
+  height: 141px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -51,7 +52,7 @@
 
 .logoText {
   font-family: 'Poppins', sans-serif;
-  font-size: 3.5rem;
+  font-size: 3.34rem;
   font-weight: 800;
   color: transparent;
   -webkit-text-stroke: 2px yellow;
@@ -63,8 +64,12 @@
   z-index: 1;
 }
 
+.infoIconWrapper {
+  position: relative;
+}
+
 .infoIcon {
-  font-size: 1.75rem;
+  font-size: 1.94rem;
   color: #00ffff;
   cursor: pointer;
   transition: transform 0.3s ease;
@@ -74,29 +79,56 @@
   transform: scale(1.1);
 }
 
+.infoPopup {
+  position: absolute;
+  top: calc(60% - 230px);
+  left: calc(100% + 84px);
+  transform: translateY(-50%) translateZ(20px);
+  width: 405px;
+  background-color: rgba(0, 217, 217, 0.85);
+  border-radius: 9px;
+  padding: 30px;
+  color: white;
+  font-size: 1.5rem;
+  z-index: 10;
+  box-shadow: 0 0 18px rgba(0, 217, 217, 0.5);
+}
+
+.infoPopupContent {
+  margin-bottom: 18px;
+  line-height: 1.4;
+}
+
+.infoSource {
+  font-style: italic;
+  text-align: right;
+  color: #00ffff;
+  font-size: 1.2rem;
+}
+
 .mainContent {
   text-align: center;
   font-size: 1.5rem;
   line-height: 1.5;
-  margin: 2rem 0;
+  margin: 1.76rem 0;
 }
 
 .socialLinks {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  font-size: 1.25rem;
+  gap: 0.88rem;
+  font-size: 1.23rem;
 }
 
 .socialButtons {
   display: flex;
-  gap: 1rem;
+  gap: 0.88rem;
 }
 
 .socialButton {
-  width: 3.5rem;
-  height: 3.5rem;
+  width: 3.52rem;
+  height: 3.52rem;
   border-radius: 50%;
   background-color: #00ffff;
   display: flex;
@@ -115,32 +147,97 @@
 }
 
 .socialButton i {
-  font-size: 1.5rem;
-}
-
-.tooltip {
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: rgba(0, 0, 0, 0.8);
-  color: white;
-  padding: 0.5rem;
-  border-radius: 0.25rem;
-  font-size: 0.875rem;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-}
-
-.socialButton:hover .tooltip {
-  opacity: 1;
+  font-size: 1.58rem;
 }
 
 .footer {
   color: #ff00ff;
-  font-size: 1.75rem;
+  font-size: 1.76rem;
   font-weight: bold;
   text-shadow: 0 0 10px rgba(255, 0, 255, 0.7);
   text-align: center;
+}
+
+.discordPopup {
+  position: absolute;
+  top: calc(60%);
+  right: calc(100% + 84px);
+  transform: translateY(-50%) translateZ(20px);
+  width: 405px;
+  background-color: rgba(97, 116, 185, 0.85);
+  border-radius: 9px;
+  padding: 30px;
+  color: white;
+  font-size: 1.5rem;
+  z-index: 10;
+  box-shadow: 0 0 18px rgba(97, 116, 185, 0.5);
+}
+
+.discordPopupContent {
+  margin-bottom: 18px;
+  line-height: 1.4;
+}
+
+.discordCTA {
+  background-color: #7289da;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.discordCTA:hover {
+  background-color: #5b6eae;
+}
+
+.twitterPopup {
+  position: absolute;
+  bottom: -215px;
+  left: calc(50% + 180px);
+  transform: translateX(-50%) translateZ(20px);
+  width: 800px;
+  height: auto;
+  background-color: rgba(29, 161, 242, 0.85);
+  border-radius: 9px;
+  padding: 20px 30px;
+  color: white;
+  font-size: 1.4rem;
+  z-index: 10;
+  box-shadow: 0 0 18px rgba(29, 161, 242, 0.5);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.twitterPopupContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.twitterLink {
+  color: #FFD700; /* Changed to a gold color */
+  text-decoration: none;
+  cursor: default;
+  pointer-events: none;
+}
+
+.twitterCTA {
+  background-color: #4A4A4A;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 5px;
+  font-size: 1.3rem;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+}
+
+.twitterCTA:hover {
+  background-color: #3A3A3A;
 }

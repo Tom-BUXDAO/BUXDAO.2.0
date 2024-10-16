@@ -2,7 +2,7 @@ import React from 'react';
 import HomeWallContent from './HomeWallContent';
 import * as THREE from 'three';
 
-const HomeWall = ({ position, rotation }) => {
+const HomeWall = ({ position, rotation, onCameraRotate }) => {
   const wallWidth = 9.5;
   const wallHeight = 7.5;
 
@@ -51,7 +51,7 @@ const HomeWall = ({ position, rotation }) => {
         <primitive object={borderMaterial} attach="material" />
       </mesh>
       <group position={[0, 0, 0.01]}>
-        <HomeWallContent />
+        <HomeWallContent onCameraRotate={onCameraRotate} />
       </group>
     </group>
   );

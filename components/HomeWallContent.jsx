@@ -1,9 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Html } from '@react-three/drei';
 import Image from 'next/image';
 import styles from './HomeWallContent.module.css';
 
-const HomeWallContent = () => {
+const HomeWallContent = ({ onCameraRotate }) => {
+  const [showInfoPopup, setShowInfoPopup] = useState(false);
+  const [showDiscordPopup, setShowDiscordPopup] = useState(false);
+  const [showTwitterPopup, setShowTwitterPopup] = useState(false);
+
+  useEffect(() => {
+    const handleCameraRotate = () => {
+      setShowInfoPopup(false);
+      setShowDiscordPopup(false);
+      setShowTwitterPopup(false);
+    };
+
+    onCameraRotate(handleCameraRotate);
+
+    return () => {
+      onCameraRotate(null);
+    };
+  }, [onCameraRotate]);
+
   return (
     <Html
       transform
@@ -20,11 +38,16 @@ const HomeWallContent = () => {
             <span className={styles.welcomeText}>Welcome to</span>
             <div className={styles.logoWrapper}>
               <div className={styles.logoBackground}>
-                <Image src="/images/logo.png" alt="BUX DAO Logo" width={160} height={160} />
+                <Image src="/images/logo.png" alt="BUX DAO Logo" width={141} height={141} />
               </div>
               <span className={styles.logoText}>BUX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DAO</span>
             </div>
-            <i className={`fas fa-info-circle ${styles.infoIcon}`}></i>
+            <div className={styles.infoIconWrapper}>
+              <i 
+                className={`fas fa-info-circle ${styles.infoIcon}`}
+                onClick={() => setShowInfoPopup(!showInfoPopup)}
+              ></i>
+            </div>
           </div>
         </div>
         <div className={styles.mainContent}>
@@ -36,20 +59,69 @@ const HomeWallContent = () => {
         </div>
         <div className={styles.socialLinks}>
           <div className={styles.socialButtons}>
-            <a href="#" target="_blank" rel="noopener noreferrer" className={styles.socialButton} aria-label="Join our Discord server">
+            <button 
+              onClick={() => setShowDiscordPopup(!showDiscordPopup)}
+              className={styles.socialButton} 
+              aria-label="Join our Discord server"
+            >
               <i className="fab fa-discord" aria-hidden="true"></i>
-              <span className={styles.tooltip}>Join Discord</span>
-            </a>
-            <a href="#" target="_blank" rel="noopener noreferrer" className={styles.socialButton} aria-label="Follow us on Twitter">
+            </button>
+            <button 
+              onClick={() => setShowTwitterPopup(!showTwitterPopup)}
+              className={styles.socialButton} 
+              aria-label="Follow us on Twitter"
+            >
               <i className="fab fa-twitter" aria-hidden="true"></i>
-              <span className={styles.tooltip}>Follow on Twitter</span>
-            </a>
+            </button>
           </div>
         </div>
         <div className={styles.footer}>
           <p>Find out how you can start earning TODAY!</p>
         </div>
       </div>
+      {showInfoPopup && (
+        <div className={styles.infoPopup}>
+          <p className={styles.infoPopupContent}>
+            "A decentralized autonomous organization (DAO) is a blockchain governance system developed to distribute decision-making, management, and entity ownership."
+          </p>
+          <p className={styles.infoSource}>- Investopedia</p>
+        </div>
+      )}
+      {showDiscordPopup && (
+        <div className={styles.discordPopup}>
+          <div className={styles.discordPopupContent}>
+            <p>Join our discord server to receive daily eBUX server points.</p>
+            <p>Use them to enter raffles to win free NFTs.</p>
+            <p>Take part in community poker league.</p>
+          </div>
+          <a 
+            href="https://discord.gg/your-discord-link" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className={styles.discordCTA}
+          >
+            Join Discord Server
+          </a>
+        </div>
+      )}
+      {showTwitterPopup && (
+        <div className={styles.twitterPopup}>
+          <div className={styles.twitterPopupContent}>
+            <p>Follow our official page</p>
+            <span className={styles.twitterLink}>
+              https://x.com/buxdao
+            </span>
+          </div>
+          <a 
+            href="https://x.com/buxdao" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className={styles.twitterCTA}
+          >
+            Go to X
+          </a>
+        </div>
+      )}
     </Html>
   );
 };

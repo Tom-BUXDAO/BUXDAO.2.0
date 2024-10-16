@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import { Text } from '@react-three/drei';
 import * as THREE from 'three';
@@ -69,7 +69,7 @@ const GridPlane = ({ position, rotation }) => {
   );
 };
 
-const CameraController = ({ setCurrentWall, currentWall, targetRotation }) => {
+const CameraController = ({ setCurrentWall, currentWall, targetRotation, onCameraRotate }) => {
   const { camera, gl } = useThree();
   const isDragging = useRef(false);
   const previousMousePosition = useRef({ x: 0, y: 0 });
@@ -160,6 +160,13 @@ const CameraController = ({ setCurrentWall, currentWall, targetRotation }) => {
 const VREnvironment = ({ currentWall, setCurrentWall }) => {
   const [mounted, setMounted] = useState(false);
   const [targetRotation, setTargetRotation] = useState(0);
+  const onCameraRotateRef = useRef(null);
+
+  const handleCameraRotate = useCallback(() => {
+    if (onCameraRotateRef.current) {
+      onCameraRotateRef.current();
+    }
+  }, []);
 
   useEffect(() => setMounted(true), []);
 
@@ -177,22 +184,35 @@ const VREnvironment = ({ currentWall, setCurrentWall }) => {
     const wall = walls.find(w => w.content === currentWall);
     if (wall) {
       setTargetRotation(-wall.angle);
+      handleCameraRotate();
     }
-  }, [currentWall]);
+  }, [currentWall, handleCameraRotate]);
 
   if (!mounted) return null;
 
   return (
     <div className="vr-container" style={{ width: '100%', height: '100%' }}>
       <Canvas camera={{ fov: 75, position: [0, 0, 0] }}>
-        <CameraController setCurrentWall={setCurrentWall} currentWall={currentWall} targetRotation={targetRotation} />
+        <CameraController 
+          setCurrentWall={setCurrentWall} 
+          currentWall={currentWall} 
+          targetRotation={targetRotation}
+          onCameraRotate={handleCameraRotate}
+        />
         <ambientLight intensity={0.5} />
         <pointLight position={[0, 0, 0]} intensity={0.8} />
         {walls.map((wall) => {
           const x = Math.sin(wall.angle) * radius;
           const z = -Math.cos(wall.angle) * radius;
           return wall.content === 'Home' ? (
-            <HomeWall key={wall.id} position={[x, 0, z]} rotation={[0, -wall.angle, 0]} />
+            <HomeWall 
+              key={wall.id} 
+              position={[x, 0, z]} 
+              rotation={[0, -wall.angle, 0]} 
+              onCameraRotate={(callback) => {
+                onCameraRotateRef.current = callback;
+              }}
+            />
           ) : (
             <Wall
               key={wall.id}
