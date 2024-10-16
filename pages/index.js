@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Head from 'next/head'
 import dynamic from 'next/dynamic'
 import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 // Dynamically import VREnvironment with SSR disabled
 const VREnvironment = dynamic(() => import('../components/VREnvironment'), { ssr: false })
@@ -20,7 +21,8 @@ export default function Home() {
         <VREnvironment currentWall={currentWall} setCurrentWall={setCurrentWall} />
       </div>
 
-      <Header setCurrentWall={setCurrentWall} currentWall={currentWall} />
+      <Header />
+      <Footer setCurrentWall={setCurrentWall} currentWall={currentWall} />
     </div>
   )
 }
