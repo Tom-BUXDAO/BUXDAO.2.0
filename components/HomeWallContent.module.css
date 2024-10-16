@@ -119,6 +119,7 @@
   align-items: center;
   gap: 0.88rem;
   font-size: 1.23rem;
+  margin-bottom: 0.5rem;
 }
 
 .socialButtons {
@@ -156,6 +157,7 @@
   font-weight: bold;
   text-shadow: 0 0 10px rgba(255, 0, 255, 0.7);
   text-align: center;
+  margin-top: 0.5rem;
 }
 
 .discordPopup {
