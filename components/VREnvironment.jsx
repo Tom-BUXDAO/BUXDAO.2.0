@@ -3,6 +3,11 @@ import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import { Text } from '@react-three/drei';
 import * as THREE from 'three';
 import HomeWall from './HomeWall';
+import BUXWall from './BUXWall';
+import NFTsWall from './NFTsWall';
+import PokerWall from './PokerWall';
+import SpadesWall from './SpadesWall';
+import ShopWall from './ShopWall';
 
 const Wall = ({ position, rotation, content }) => {
   return (
@@ -204,23 +209,73 @@ const VREnvironment = ({ currentWall, setCurrentWall }) => {
         {walls.map((wall) => {
           const x = Math.sin(wall.angle) * radius;
           const z = -Math.cos(wall.angle) * radius;
-          return wall.content === 'Home' ? (
-            <HomeWall 
-              key={wall.id} 
-              position={[x, 0, z]} 
-              rotation={[0, -wall.angle, 0]} 
-              onCameraRotate={(callback) => {
-                onCameraRotateRef.current = callback;
-              }}
-            />
-          ) : (
-            <Wall
-              key={wall.id}
-              position={[x, 0, z]}
-              rotation={[0, -wall.angle, 0]}
-              content={wall.content}
-            />
-          );
+          if (wall.content === 'Home') {
+            return (
+              <HomeWall 
+                key={wall.id} 
+                position={[x, 0, z]} 
+                rotation={[0, -wall.angle, 0]} 
+                onCameraRotate={(callback) => {
+                  onCameraRotateRef.current = callback;
+                }}
+              />
+            );
+          } else if (wall.content === 'BUX') {
+            return (
+              <BUXWall
+                key={wall.id}
+                position={[x, 0, z]}
+                rotation={[0, -wall.angle, 0]}
+                onCameraRotate={(callback) => {
+                  onCameraRotateRef.current = callback;
+                }}
+              />
+            );
+          } else if (wall.content === 'NFTs') {
+            return (
+              <NFTsWall
+                key={wall.id}
+                position={[x, 0, z]}
+                rotation={[0, -wall.angle, 0]}
+                onCameraRotate={(callback) => {
+                  onCameraRotateRef.current = callback;
+                }}
+              />
+            );
+          } else if (wall.content === 'Poker') {
+            return (
+              <PokerWall
+                key={wall.id}
+                position={[x, 0, z]}
+                rotation={[0, -wall.angle, 0]}
+                onCameraRotate={(callback) => {
+                  onCameraRotateRef.current = callback;
+                }}
+              />
+            );
+          } else if (wall.content === 'Spades') {
+            return (
+              <SpadesWall
+                key={wall.id}
+                position={[x, 0, z]}
+                rotation={[0, -wall.angle, 0]}
+                onCameraRotate={(callback) => {
+                  onCameraRotateRef.current = callback;
+                }}
+              />
+            );
+          } else if (wall.content === 'Shop') {
+            return (
+              <ShopWall
+                key={wall.id}
+                position={[x, 0, z]}
+                rotation={[0, -wall.angle, 0]}
+                onCameraRotate={(callback) => {
+                  onCameraRotateRef.current = callback;
+                }}
+              />
+            );
+          }
         })}
         <GridPlane position={[0, -4, 0]} rotation={[-Math.PI / 2, 0, 0]} />
         <GridPlane position={[0, 4, 0]} rotation={[Math.PI / 2, 0, 0]} />
