@@ -1,0 +1,42 @@
+.header {
+  --logo-text-size: 2rem;
+  --logo-text-height: 2rem;
+  --logo-height: 60px;
+  --button-text-size: 1.125rem;
+  --button-padding: 0.75rem 1.5rem;
+  --button-icon-size: 1.75rem;
+  height: var(--header-height);
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  height: var(--logo-height);
+}
+
+.logoText {
+  font-size: var(--logo-text-size);
+  line-height: var(--logo-text-height);
+}
+
+.button {
+  font-size: var(--button-text-size);
+  padding: var(--button-padding);
+  transition: all 0.3s ease;
+}
+
+.buttonIcon {
+  width: var(--button-icon-size);
+  height: var(--button-icon-size);
+  transition: filter 0.3s ease;
+}
+
+.button:hover {
+  transform: translateY(-1px);
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+/* Add any other local styles here */

@@ -1,28 +1,20 @@
 import { useState } from 'react'
 import Head from 'next/head'
-import dynamic from 'next/dynamic'
-import Header from '../components/Header'
-import Footer from '../components/Footer'
-
-// Dynamically import VREnvironment with SSR disabled
-const VREnvironment = dynamic(() => import('../components/VREnvironment'), { ssr: false })
+import Layout from '../components/Layout'
+import VREnvironment from '../components/VREnvironment'
+import styles from '../styles/Home.module.css'
 
 export default function Home() {
   const [currentWall, setCurrentWall] = useState('Home')
 
   return (
-    <div className="relative h-screen w-screen overflow-hidden">
+    <Layout currentWall={currentWall} setCurrentWall={setCurrentWall}>
       <Head>
         <title>BUX DAO - VR Experience</title>
         <meta name="description" content="Explore the BUX DAO VR Experience" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
       </Head>
-
-      <div className="absolute inset-0">
-        <VREnvironment currentWall={currentWall} setCurrentWall={setCurrentWall} />
-      </div>
-
-      <Header />
-      <Footer setCurrentWall={setCurrentWall} currentWall={currentWall} />
-    </div>
+      <VREnvironment currentWall={currentWall} setCurrentWall={setCurrentWall} />
+    </Layout>
   )
 }

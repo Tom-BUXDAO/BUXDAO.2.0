@@ -8,6 +8,31 @@ import NFTsWall from './NFTsWall';
 import PokerWall from './PokerWall';
 import SpadesWall from './SpadesWall';
 import ShopWall from './ShopWall';
+import WebGLErrorBoundary from './WebGLErrorBoundary';
+
+// Custom ErrorBoundary component
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.log('Error:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <div>Something went wrong.</div>;
+    }
+
+    return this.props.children;
+  }
+}
 
 const Wall = ({ position, rotation, content }) => {
   return (
@@ -162,6 +187,31 @@ const CameraController = ({ setCurrentWall, currentWall, targetRotation, onCamer
   return null;
 };
 
+const ContextRestorationHandler = () => {
+  const { gl } = useThree();
+
+  useEffect(() => {
+    const handleContextLost = (event) => {
+      event.preventDefault();
+      console.log('WebGL context lost. Attempting to restore...');
+    };
+
+    const handleContextRestored = () => {
+      console.log('WebGL context restored.');
+    };
+
+    gl.domElement.addEventListener('webglcontextlost', handleContextLost, false);
+    gl.domElement.addEventListener('webglcontextrestored', handleContextRestored, false);
+
+    return () => {
+      gl.domElement.removeEventListener('webglcontextlost', handleContextLost);
+      gl.domElement.removeEventListener('webglcontextrestored', handleContextRestored);
+    };
+  }, [gl]);
+
+  return null;
+};
+
 const VREnvironment = ({ currentWall, setCurrentWall }) => {
   const [mounted, setMounted] = useState(false);
   const [targetRotation, setTargetRotation] = useState(0);
@@ -196,93 +246,102 @@ const VREnvironment = ({ currentWall, setCurrentWall }) => {
   if (!mounted) return null;
 
   return (
-    <div className="vr-container" style={{ width: '100%', height: '100%' }}>
-      <Canvas camera={{ fov: 75, position: [0, 0, 0] }}>
-        <CameraController 
-          setCurrentWall={setCurrentWall} 
-          currentWall={currentWall} 
-          targetRotation={targetRotation}
-          onCameraRotate={handleCameraRotate}
-        />
-        <ambientLight intensity={0.5} />
-        <pointLight position={[0, 0, 0]} intensity={0.8} />
-        {walls.map((wall) => {
-          const x = Math.sin(wall.angle) * radius;
-          const z = -Math.cos(wall.angle) * radius;
-          if (wall.content === 'Home') {
-            return (
-              <HomeWall 
-                key={wall.id} 
-                position={[x, 0, z]} 
-                rotation={[0, -wall.angle, 0]} 
-                onCameraRotate={(callback) => {
-                  onCameraRotateRef.current = callback;
-                }}
-              />
-            );
-          } else if (wall.content === 'BUX') {
-            return (
-              <BUXWall
-                key={wall.id}
-                position={[x, 0, z]}
-                rotation={[0, -wall.angle, 0]}
-                onCameraRotate={(callback) => {
-                  onCameraRotateRef.current = callback;
-                }}
-              />
-            );
-          } else if (wall.content === 'NFTs') {
-            return (
-              <NFTsWall
-                key={wall.id}
-                position={[x, 0, z]}
-                rotation={[0, -wall.angle, 0]}
-                onCameraRotate={(callback) => {
-                  onCameraRotateRef.current = callback;
-                }}
-              />
-            );
-          } else if (wall.content === 'Poker') {
-            return (
-              <PokerWall
-                key={wall.id}
-                position={[x, 0, z]}
-                rotation={[0, -wall.angle, 0]}
-                onCameraRotate={(callback) => {
-                  onCameraRotateRef.current = callback;
-                }}
-              />
-            );
-          } else if (wall.content === 'Spades') {
-            return (
-              <SpadesWall
-                key={wall.id}
-                position={[x, 0, z]}
-                rotation={[0, -wall.angle, 0]}
-                onCameraRotate={(callback) => {
-                  onCameraRotateRef.current = callback;
-                }}
-              />
-            );
-          } else if (wall.content === 'Shop') {
-            return (
-              <ShopWall
-                key={wall.id}
-                position={[x, 0, z]}
-                rotation={[0, -wall.angle, 0]}
-                onCameraRotate={(callback) => {
-                  onCameraRotateRef.current = callback;
-                }}
-              />
-            );
-          }
-        })}
-        <GridPlane position={[0, -4, 0]} rotation={[-Math.PI / 2, 0, 0]} />
-        <GridPlane position={[0, 4, 0]} rotation={[Math.PI / 2, 0, 0]} />
-      </Canvas>
-      <div style={{ position: 'absolute', bottom: 10, left: 10, color: 'white', backgroundColor: 'rgba(0,0,0,0.5)', padding: '5px' }}>
-        Current Wall: {currentWall}
-      </div>
+    <div className="vr-container" style={{ 
+      width: '100%', 
+      height: '100vh',
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      overflow: 'hidden'
+    }}>
+      <WebGLErrorBoundary>
+        <Canvas camera={{ fov: 75, position: [0, 0, 0], near: 0.1, far: 1000 }}>
+          <ContextRestorationHandler />
+          <CameraController 
+            setCurrentWall={setCurrentWall} 
+            currentWall={currentWall} 
+            targetRotation={targetRotation}
+            onCameraRotate={handleCameraRotate}
+          />
+          <ambientLight intensity={0.5} />
+          <pointLight position={[0, 0, 0]} intensity={0.8} />
+          {walls.map((wall) => {
+            const x = Math.sin(wall.angle) * radius;
+            const z = -Math.cos(wall.angle) * radius;
+            if (wall.content === 'Home') {
+              return (
+                <HomeWall 
+                  key={wall.id} 
+                  position={[x, 0, z]} 
+                  rotation={[0, -wall.angle, 0]} 
+                  onCameraRotate={(callback) => {
+                    onCameraRotateRef.current = callback;
+                  }}
+                />
+              );
+            } else if (wall.content === 'BUX') {
+              return (
+                <BUXWall
+                  key={wall.id}
+                  position={[x, 0, z]}
+                  rotation={[0, -wall.angle, 0]}
+                  onCameraRotate={(callback) => {
+                    onCameraRotateRef.current = callback;
+                  }}
+                />
+              );
+            } else if (wall.content === 'NFTs') {
+              return (
+                <NFTsWall
+                  key={wall.id}
+                  position={[x, 0, z]}
+                  rotation={[0, -wall.angle, 0]}
+                  onCameraRotate={(callback) => {
+                    onCameraRotateRef.current = callback;
+                  }}
+                />
+              );
+            } else if (wall.content === 'Poker') {
+              return (
+                <PokerWall
+                  key={wall.id}
+                  position={[x, 0, z]}
+                  rotation={[0, -wall.angle, 0]}
+                  onCameraRotate={(callback) => {
+                    onCameraRotateRef.current = callback;
+                  }}
+                />
+              );
+            } else if (wall.content === 'Spades') {
+              return (
+                <SpadesWall
+                  key={wall.id}
+                  position={[x, 0, z]}
+                  rotation={[0, -wall.angle, 0]}
+                  onCameraRotate={(callback) => {
+                    onCameraRotateRef.current = callback;
+                  }}
+                />
+              );
+            } else if (wall.content === 'Shop') {
+              return (
+                <ShopWall
+                  key={wall.id}
+                  position={[x, 0, z]}
+                  rotation={[0, -wall.angle, 0]}
+                  onCameraRotate={(callback) => {
+                    onCameraRotateRef.current = callback;
+                  }}
+                />
+              );
+            }
+          })}
+          <GridPlane position={[0, -4, 0]} rotation={[-Math.PI / 2, 0, 0]} />
+          <GridPlane position={[0, 4, 0]} rotation={[Math.PI / 2, 0, 0]} />
+        </Canvas>
+      </WebGLErrorBoundary>
     </div>
   );
 };

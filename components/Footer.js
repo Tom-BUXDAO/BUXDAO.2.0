@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
+import styles from './Footer.module.css'
 
 const NavItem = React.forwardRef(({ icon, text, onClick, isActive, buttonSize }, ref) => {
   return (
@@ -22,7 +23,7 @@ const NavItem = React.forwardRef(({ icon, text, onClick, isActive, buttonSize },
 
 NavItem.displayName = 'NavItem'
 
-function Footer({ setCurrentWall, currentWall }) {
+function Footer({ currentWall, setCurrentWall }) {
   const [buttonSize, setButtonSize] = useState({ width: 0, height: 0 });
   const spadesButtonRef = useRef(null);
 

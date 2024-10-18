@@ -3,11 +3,11 @@ import React from 'react'
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { hasError: false, error: null }
+    this.state = { hasError: false }
   }
 
   static getDerivedStateFromError(error) {
-    return { hasError: true, error }
+    return { hasError: true }
   }
 
   componentDidCatch(error, errorInfo) {
@@ -16,10 +16,7 @@ class ErrorBoundary extends React.Component {
 
   render() {
     if (this.state.hasError) {
-      if (this.state.error.message.includes('WebGL context lost')) {
-        return <h2 className="text-center text-neon-blue">WebGL context lost. Please refresh the page or try a different browser.</h2>
-      }
-      return <h1 className="text-center text-neon-blue">Something went wrong with the 3D content. Please refresh the page or try a different browser.</h1>
+      return <h1>Something went wrong. Please refresh the page.</h1>
     }
 
     return this.props.children

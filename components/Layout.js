@@ -1,9 +1,14 @@
 import React from 'react'
+import Header from './Header'
+import Footer from './Footer'
+import styles from './Layout.module.css'
 
-const Layout = ({ children }) => {
+const Layout = ({ children, currentWall, setCurrentWall }) => {
   return (
-    <div className="min-h-screen flex flex-col">
-      <main className="flex-grow">{children}</main>
+    <div className={styles.container}>
+      <main className={styles.main}>{children}</main>
+      <Header currentWall={currentWall} setCurrentWall={setCurrentWall} />
+      <Footer currentWall={currentWall} setCurrentWall={setCurrentWall} />
     </div>
   )
 }
