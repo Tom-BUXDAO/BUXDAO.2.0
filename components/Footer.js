@@ -7,15 +7,25 @@ const NavItem = React.forwardRef(({ icon, text, onClick, isActive, buttonSize },
     <li>
       <button 
         onClick={onClick} 
-        className={`flex items-center justify-center text-base group ${isActive ? 'text-neon-blue' : 'text-white'}`}
+        className={`flex items-center justify-center text-base group transition-all duration-300
+                    ${isActive ? 'text-yellow-400' : 'text-white hover:bg-neon-pink'}`}
         style={{
           width: buttonSize.width ? `${buttonSize.width}px` : 'auto',
           height: buttonSize.height ? `${buttonSize.height}px` : 'auto',
           padding: '10px 13px',
+          backgroundColor: 'transparent',
         }}
       >
-        <Image src={`/images/${icon}.svg`} alt={`${text} icon`} width={24} height={24} className="mr-2 transition-all duration-300 group-hover:filter group-hover:brightness-150" />
-        <span className="group-hover:text-neon-blue transition-colors duration-300">{text}</span>
+        <Image 
+          src={`/images/${icon}.svg`} 
+          alt={`${text} icon`} 
+          width={24} 
+          height={24} 
+          className={`mr-2 transition-all duration-300 ${
+            isActive ? 'filter brightness-150 saturate-200' : 'group-hover:filter group-hover:brightness-150'
+          }`}
+        />
+        <span className="transition-colors duration-300 group-hover:text-white">{text}</span>
       </button>
     </li>
   )
