@@ -4,6 +4,7 @@ import { OrbitControls, Html } from '@react-three/drei'
 import * as THREE from 'three'
 import WalletConnection from './WalletConnection'
 import ErrorBoundary from './ErrorBoundary'
+import styles from '../styles/globals.css'
 
 const ROOM_RADIUS = 10
 const ROOM_HEIGHT = 8
@@ -25,7 +26,7 @@ const Wall = React.forwardRef(({ position, rotation, size, text, color, isActive
         side={THREE.DoubleSide}
       />
       <Html position={[0, 0, 0.1]} transform occlude>
-        <div className="text-white text-4xl font-bold">{text}</div>
+        <div className={`text-white text-4xl font-bold ${styles['vr-wall-content']}`}>{text}</div>
       </Html>
     </mesh>
   )
@@ -81,7 +82,15 @@ function VRScene({ currentWall }) {
             text={wall.name}
             color={wall.color}
             isActive={currentWall === wall.name}
-          />
+          >
+            <Html transform occlude>
+              <div className={styles['vr-wall-content']}>
+                {/* Your wall content goes here */}
+                <h2>{wall.name} Content</h2>
+                <button className={styles['vr-wall-interactive']}>Interactive Button</button>
+              </div>
+            </Html>
+          </Wall>
         )
       })}
       <mesh position={[0, -ROOM_HEIGHT/2, 0]} rotation={[-Math.PI/2, 0, 0]}>
@@ -100,20 +109,88 @@ function VRScene({ currentWall }) {
 }
 
 function VRWarehouse({ currentWall, setCurrentWall }) {
+  const canvasRef = useRef(null);
+  const controlsRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (canvas) {
+      canvas.style.touchAction = 'none'; // Prevents default touch actions
+
+      let isDragging = false;
+      let previousTouch = null;
+
+      const handleStart = (e) => {
+        if (e.target.closest(`.${styles['vr-wall-interactive']}`)) {
+          return;
+        }
+        isDragging = true;
+        if (e.type === 'touchstart') {
+          previousTouch = e.touches[0];
+        }
+      };
+
+      const handleMove = (e) => {
+        if (!isDragging) return;
+        
+        if (e.type === 'touchmove') {
+          const touch = e.touches[0];
+          const movementX = touch.clientX - previousTouch.clientX;
+          const movementY = touch.clientY - previousTouch.clientY;
+          previousTouch = touch;
+          
+          if (controlsRef.current) {
+            controlsRef.current.rotateLeft(movementX * 0.005);
+            controlsRef.current.rotateUp(movementY * 0.005);
+          }
+        } else {
+          if (controlsRef.current) {
+            controlsRef.current.rotateLeft(e.movementX * 0.005);
+            controlsRef.current.rotateUp(e.movementY * 0.005);
+          }
+        }
+      };
+
+      const handleEnd = () => {
+        isDragging = false;
+        previousTouch = null;
+      };
+
+      canvas.addEventListener('mousedown', handleStart);
+      canvas.addEventListener('touchstart', handleStart);
+      canvas.addEventListener('mousemove', handleMove);
+      canvas.addEventListener('touchmove', handleMove);
+      canvas.addEventListener('mouseup', handleEnd);
+      canvas.addEventListener('touchend', handleEnd);
+
+      return () => {
+        canvas.removeEventListener('mousedown', handleStart);
+        canvas.removeEventListener('touchstart', handleStart);
+        canvas.removeEventListener('mousemove', handleMove);
+        canvas.removeEventListener('touchmove', handleMove);
+        canvas.removeEventListener('mouseup', handleEnd);
+        canvas.removeEventListener('touchend', handleEnd);
+      };
+    }
+  }, []);
+
   return (
-    <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+    <div style={{ width: '100%', height: '100%', position: 'relative' }} className={styles['vr-draggable']}>
       <ErrorBoundary>
         <Canvas
+          ref={canvasRef}
           camera={{ position: [0, 0, ROOM_RADIUS * CAMERA_DISTANCE], fov: CAMERA_FOV }}
           onCreated={({ gl }) => {
             gl.setClearColor('#000000')
           }}
         >
-          <VRScene currentWall={currentWall} />
-          <OrbitControls enableZoom={false} enablePan={false} />
+          <group>
+            <VRScene currentWall={currentWall} />
+            <OrbitControls ref={controlsRef} enableZoom={false} enablePan={false} />
+          </group>
         </Canvas>
       </ErrorBoundary>
-      <div style={{ position: 'absolute', top: 10, right: 10 }}>
+      <div style={{ position: 'absolute', top: 10, right: 10 }} className={styles['vr-wall-interactive']}>
         <WalletConnection />
       </div>
     </div>
