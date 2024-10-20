@@ -142,6 +142,9 @@ function VRWarehouse({ currentWall, setCurrentWall }) {
         controlsRef.current.rotateUp(deltaY * 0.005);
         
         lastPositionRef.current = { x: clientX, y: clientY };
+
+        // Prevent default behavior to avoid scrolling
+        e.preventDefault();
       };
 
       const handleEnd = () => {
@@ -149,20 +152,20 @@ function VRWarehouse({ currentWall, setCurrentWall }) {
       };
 
       canvas.addEventListener('mousedown', handleStart);
-      canvas.addEventListener('touchstart', handleStart);
-      canvas.addEventListener('mousemove', handleMove);
-      canvas.addEventListener('touchmove', handleMove);
-      canvas.addEventListener('mouseup', handleEnd);
-      canvas.addEventListener('touchend', handleEnd);
+      canvas.addEventListener('touchstart', handleStart, { passive: false });
+      window.addEventListener('mousemove', handleMove);
+      window.addEventListener('touchmove', handleMove, { passive: false });
+      window.addEventListener('mouseup', handleEnd);
+      window.addEventListener('touchend', handleEnd);
       canvas.addEventListener('mouseleave', handleEnd);
 
       return () => {
         canvas.removeEventListener('mousedown', handleStart);
         canvas.removeEventListener('touchstart', handleStart);
-        canvas.removeEventListener('mousemove', handleMove);
-        canvas.removeEventListener('touchmove', handleMove);
-        canvas.removeEventListener('mouseup', handleEnd);
-        canvas.removeEventListener('touchend', handleEnd);
+        window.removeEventListener('mousemove', handleMove);
+        window.removeEventListener('touchmove', handleMove);
+        window.removeEventListener('mouseup', handleEnd);
+        window.removeEventListener('touchend', handleEnd);
         canvas.removeEventListener('mouseleave', handleEnd);
       };
     }
