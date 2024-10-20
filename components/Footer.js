@@ -1,35 +1,33 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Image from 'next/image'
 import styles from './Footer.module.css'
 
-const NavItem = React.memo(React.forwardRef(({ icon, text, onClick, isActive, buttonSize }, ref) => {
+const NavItem = React.memo(({ icon, text, onClick, isActive, isLandscape }) => {
   return (
-    <li ref={ref}>
+    <li className="px-1">
       <button 
         onClick={() => onClick(text)}
-        className={`flex items-center justify-center text-base group transition-all duration-300
+        className={`flex flex-row items-center justify-center text-base group transition-all duration-300
                     ${isActive ? 'text-yellow-400' : 'text-white hover:bg-neon-pink'}`}
         style={{
-          width: buttonSize.width ? `${buttonSize.width}px` : 'auto',
-          height: buttonSize.height ? `${buttonSize.height}px` : 'auto',
-          padding: '10px 13px',
+          padding: isLandscape ? '5px 6px' : '8px 10px',
           backgroundColor: 'transparent',
         }}
       >
         <Image 
           src={`/images/${icon}.svg`} 
           alt={`${text} icon`} 
-          width={24} 
-          height={24} 
-          className={`mr-2 transition-all duration-300 ${
+          width={isLandscape ? 18 : 24}
+          height={isLandscape ? 18 : 24}
+          className={`mr-1 transition-all duration-300 ${
             isActive ? 'filter brightness-150 saturate-200' : 'group-hover:filter group-hover:brightness-150'
           }`}
         />
-        <span className="transition-colors duration-300 group-hover:text-white">{text}</span>
+        <span className={`transition-colors duration-300 group-hover:text-white ${isLandscape ? 'text-xs' : 'text-sm'}`}>{text}</span>
       </button>
     </li>
   )
-}))
+})
 
 NavItem.displayName = 'NavItem'
 
@@ -43,14 +41,17 @@ const navItems = [
 ]
 
 function Footer({ currentWall, setCurrentWall }) {
-  const [buttonSize, setButtonSize] = useState({ width: 0, height: 0 });
-  const spadesButtonRef = useRef(null);
+  const [isLandscape, setIsLandscape] = useState(false);
 
   useEffect(() => {
-    if (spadesButtonRef.current) {
-      const { offsetWidth, offsetHeight } = spadesButtonRef.current;
-      setButtonSize({ width: offsetWidth, height: offsetHeight });
-    }
+    const checkOrientation = () => {
+      setIsLandscape(window.innerHeight <= 500 && window.innerWidth > window.innerHeight);
+    };
+
+    checkOrientation();
+    window.addEventListener('resize', checkOrientation);
+
+    return () => window.removeEventListener('resize', checkOrientation);
   }, []);
 
   const handleNavClick = useCallback((wall) => {
@@ -59,24 +60,21 @@ function Footer({ currentWall, setCurrentWall }) {
   }, [setCurrentWall]);
 
   return (
-    <footer className="fixed bottom-0 left-0 right-0 bg-primary bg-opacity-80 text-white w-full z-10">
-      <div className="w-full mx-auto px-[3vw]">
-        <div className="flex items-center justify-center h-[120px]">
-          <nav>
-            <ul className="flex justify-center space-x-4">
-              {navItems.map((item) => (
-                <NavItem 
-                  key={item.text} 
-                  {...item} 
-                  onClick={handleNavClick}
-                  isActive={currentWall === item.text}
-                  buttonSize={buttonSize}
-                  ref={item.text === 'Spades' ? spadesButtonRef : null}
-                />
-              ))}
-            </ul>
-          </nav>
-        </div>
+    <footer className={`${styles.footer} bg-primary bg-opacity-80`}>
+      <div className={`${styles.footerContent} w-full mx-auto px-[3vw]`}>
+        <nav className="w-full">
+          <ul className="flex justify-center items-center space-x-2">
+            {navItems.map((item) => (
+              <NavItem 
+                key={item.text} 
+                {...item} 
+                onClick={handleNavClick}
+                isActive={currentWall === item.text}
+                isLandscape={isLandscape}
+              />
+            ))}
+          </ul>
+        </nav>
       </div>
     </footer>
   )
