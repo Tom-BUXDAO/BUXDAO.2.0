@@ -1,42 +1,62 @@
 .header {
-  --logo-text-size: 2rem;
-  --logo-text-height: 2rem;
-  --logo-height: 60px;
-  --button-text-size: 1.125rem;
-  --button-padding: 0.75rem 1.5rem;
-  --button-icon-size: 1.75rem;
+  --header-height: 120px;
   height: var(--header-height);
 }
 
 .logoContainer {
-  display: flex;
-  align-items: center;
-  height: var(--logo-height);
+  height: var(--header-height);
+}
+
+.logoImage {
+  width: 100px;
+  height: 100px;
+  opacity: 0.5;
+  filter: blur(2px);
 }
 
 .logoText {
-  font-size: var(--logo-text-size);
-  line-height: var(--logo-text-height);
+  font-size: 3rem;
+  -webkit-text-stroke: 3px yellow;
+  text-stroke: 3px yellow;
 }
 
-.button {
-  font-size: var(--button-text-size);
-  padding: var(--button-padding);
-  transition: all 0.3s ease;
+.loginButton {
+  font-size: 1.875rem;
+  padding: 1rem 2rem;
 }
 
-.buttonIcon {
-  width: var(--button-icon-size);
-  height: var(--button-icon-size);
-  transition: filter 0.3s ease;
+.loginIcon {
+  width: 28px;
+  height: 28px;
 }
 
-.button:hover {
-  transform: translateY(-1px);
-}
+@media screen and (max-height: 500px) and (orientation: landscape) {
+  .header {
+    --header-height: 60px;
+  }
 
-.button:active {
-  transform: translateY(1px);
+  .logoImage {
+    width: 50px;
+    height: 50px;
+    opacity: 0.7;  /* Increased opacity for less fade */
+    filter: blur(1px);  /* Reduced blur for mobile landscape */
+  }
+
+  .logoText {
+    font-size: 1.5rem;
+    -webkit-text-stroke: 2px yellow;  /* Reduced outline width */
+    text-stroke: 2px yellow;  /* Reduced outline width */
+  }
+
+  .loginButton {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .loginIcon {
+    width: 20px;
+    height: 20px;
+  }
 }
 
 /* Add any other local styles here */

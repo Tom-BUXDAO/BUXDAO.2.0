@@ -1,0 +1,37 @@
+.neon-text {
+  @apply text-neon-blue;
+  text-shadow: 0 0 5px theme('colors.neon-blue'), 0 0 10px theme('colors.neon-blue');
+}
+
+.neon-border {
+  @apply border-neon-pink;
+  box-shadow: 0 0 5px theme('colors.neon-pink'), 0 0 10px theme('colors.neon-pink');
+}
+
+.neon-box {
+  @apply border border-neon-blue shadow-neon-blue transition-all duration-300 p-4 rounded-lg;
+}
+
+.neon-box:hover {
+  @apply border-neon-pink shadow-neon-pink;
+}
+
+/* VR Environment Styles */
+.vr-container {
+  width: 100%;
+  height: 100%;
+}
+
+.vr-loading {
+  @apply fixed inset-0 flex items-center justify-center bg-background text-neon-blue text-2xl z-50;
+}
+
+.vr-controls {
+  @apply fixed bottom-4 left-4 z-40 flex space-x-2;
+}
+
+.vr-button {
+  @apply bg-neon-blue text-background hover:bg-neon-pink hover:text-text transition-all duration-300 shadow-neon-blue hover:shadow-neon-pink text-sm py-2 px-4 rounded opacity-75 hover:opacity-100;
+}
+
+/* Add any other shared styles here */

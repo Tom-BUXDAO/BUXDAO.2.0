@@ -1,12 +1,12 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useCallback } from 'react'
 import Image from 'next/image'
 import styles from './Footer.module.css'
 
-const NavItem = React.forwardRef(({ icon, text, onClick, isActive, buttonSize }, ref) => {
+const NavItem = React.memo(React.forwardRef(({ icon, text, onClick, isActive, buttonSize }, ref) => {
   return (
-    <li>
+    <li ref={ref}>
       <button 
-        onClick={onClick} 
+        onClick={() => onClick(text)}
         className={`flex items-center justify-center text-base group transition-all duration-300
                     ${isActive ? 'text-yellow-400' : 'text-white hover:bg-neon-pink'}`}
         style={{
@@ -29,22 +29,22 @@ const NavItem = React.forwardRef(({ icon, text, onClick, isActive, buttonSize },
       </button>
     </li>
   )
-})
+}))
 
 NavItem.displayName = 'NavItem'
+
+const navItems = [
+  { icon: 'home', text: 'Home' },
+  { icon: 'bux', text: 'BUX' },
+  { icon: 'nfts', text: 'NFTs' },
+  { icon: 'poker', text: 'Poker' },
+  { icon: 'spades', text: 'Spades' },
+  { icon: 'shop', text: 'Shop' },
+]
 
 function Footer({ currentWall, setCurrentWall }) {
   const [buttonSize, setButtonSize] = useState({ width: 0, height: 0 });
   const spadesButtonRef = useRef(null);
-
-  const navItems = [
-    { icon: 'home', text: 'Home' },
-    { icon: 'bux', text: 'BUX' },
-    { icon: 'nfts', text: 'NFTs' },
-    { icon: 'poker', text: 'Poker' },
-    { icon: 'spades', text: 'Spades' },
-    { icon: 'shop', text: 'Shop' },
-  ]
 
   useEffect(() => {
     if (spadesButtonRef.current) {
@@ -53,10 +53,10 @@ function Footer({ currentWall, setCurrentWall }) {
     }
   }, []);
 
-  const handleNavClick = (wall) => {
+  const handleNavClick = useCallback((wall) => {
     console.log('Nav clicked:', wall);
     setCurrentWall(wall);
-  };
+  }, [setCurrentWall]);
 
   return (
     <footer className="fixed bottom-0 left-0 right-0 bg-primary bg-opacity-80 text-white w-full z-10">
@@ -68,7 +68,7 @@ function Footer({ currentWall, setCurrentWall }) {
                 <NavItem 
                   key={item.text} 
                   {...item} 
-                  onClick={() => handleNavClick(item.text)}
+                  onClick={handleNavClick}
                   isActive={currentWall === item.text}
                   buttonSize={buttonSize}
                   ref={item.text === 'Spades' ? spadesButtonRef : null}
@@ -82,4 +82,4 @@ function Footer({ currentWall, setCurrentWall }) {
   )
 }
 
-export default Footer
+export default React.memo(Footer)

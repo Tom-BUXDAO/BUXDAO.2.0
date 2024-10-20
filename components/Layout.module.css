@@ -10,17 +10,18 @@
   height: 100%;
 }
 
-.header, .footer {
+.header {
   position: fixed;
   left: 0;
   right: 0;
   z-index: 10;
-}
-
-.header {
   top: 0;
 }
 
 .footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 10;
   bottom: 0;
 }

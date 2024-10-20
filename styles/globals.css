@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Add or modify these rules at the beginning of your globals.css file */
+/* Reset and base styles */
 html, body, #__next {
   width: 100%;
   height: 100%;
@@ -11,27 +11,14 @@ html, body, #__next {
   overflow: hidden;
 }
 
-/* Remove any default margins or paddings that might be causing issues */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-
-/* Ensure the main content takes up all available space */
-main {
-  display: flex;
-  flex-grow: 1;
-}
-
-/* Reset default styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  -webkit-text-size-adjust: 100%;
-  text-stroke-width: initial;
-  text-stroke-color: initial;
+  /* Consider replacing these with standard properties or vendor-prefixed versions */
+  /* -webkit-text-size-adjust: 100%; */
+  /* text-stroke-width: initial; */
+  /* text-stroke-color: initial; */
 }
 
 body {
@@ -41,12 +28,14 @@ body {
   @apply bg-background text-text text-base;
 }
 
-a {
-  @apply text-neon-blue hover:text-neon-pink transition-all duration-300;
+main {
+  display: flex;
+  flex-grow: 1;
 }
 
-button {
-  @apply bg-neon-blue text-background hover:bg-neon-pink hover:text-text transition-all duration-300 shadow-neon-blue hover:shadow-neon-pink text-sm py-2 px-4 rounded;
+/* Typography */
+a {
+  @apply text-neon-blue hover:text-neon-pink transition-all duration-300;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -60,6 +49,11 @@ h4 { @apply text-lg font-semibold; }
 h5 { @apply text-base font-semibold; }
 h6 { @apply text-sm font-semibold; }
 
+/* Components */
+button {
+  @apply bg-neon-blue text-background hover:bg-neon-pink hover:text-text transition-all duration-300 shadow-neon-blue hover:shadow-neon-pink text-sm py-2 px-4 rounded;
+}
+
 .neon-box {
   @apply border border-neon-blue shadow-neon-blue transition-all duration-300 p-4 rounded-lg;
 }
@@ -68,7 +62,7 @@ h6 { @apply text-sm font-semibold; }
   @apply border-neon-pink shadow-neon-pink;
 }
 
-/* VR Environment Styles */
+/* VR specific styles */
 .vr-container {
   width: 100%;
   height: 100%;

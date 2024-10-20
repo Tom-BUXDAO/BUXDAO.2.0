@@ -9,4 +9,17 @@
   bottom: 0;
   left: 0;
   right: 0;
+  z-index: 10;
+}
+
+.footerText {
+  color: #ff00ff;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+@media screen and (max-height: 500px) and (orientation: landscape) {
+  .footer {
+    height: 60px;
+  }
 }

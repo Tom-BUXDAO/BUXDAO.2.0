@@ -152,12 +152,10 @@
 }
 
 .footer {
-  color: #ff00ff;
-  font-size: 1.76rem;
-  font-weight: bold;
-  text-shadow: 0 0 10px rgba(255, 0, 255, 0.7);
   text-align: center;
-  margin-top: 0.5rem;
+  color: #ff00ff;
+  font-size: 28px;
+  font-weight: bold;
 }
 
 .discordPopup {
