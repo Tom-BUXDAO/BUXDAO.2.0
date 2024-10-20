@@ -30,6 +30,10 @@
   height: 28px;
 }
 
+.loginText {
+  font-size: 1.875rem;
+}
+
 @media screen and (max-height: 500px) and (orientation: landscape) {
   .header {
     --header-height: 60px;
@@ -38,14 +42,14 @@
   .logoImage {
     width: 50px;
     height: 50px;
-    opacity: 0.7;  /* Increased opacity for less fade */
-    filter: blur(1px);  /* Reduced blur for mobile landscape */
+    opacity: 0.7;
+    filter: blur(1px);
   }
 
   .logoText {
     font-size: 1.5rem;
-    -webkit-text-stroke: 2px yellow;  /* Reduced outline width */
-    text-stroke: 2px yellow;  /* Reduced outline width */
+    -webkit-text-stroke: 2px yellow;
+    text-stroke: 2px yellow;
   }
 
   .loginButton {
@@ -56,6 +60,43 @@
   .loginIcon {
     width: 20px;
     height: 20px;
+  }
+
+  .loginText {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (orientation: portrait) {
+  .header {
+    --header-height: 80px;
+  }
+
+  .logoImage {
+    width: 60px;
+    height: 60px;
+    opacity: 0.7;
+    filter: blur(1px);
+  }
+
+  .logoText {
+    font-size: 1.8rem;
+    -webkit-text-stroke: 2px yellow;
+    text-stroke: 2px yellow;
+  }
+
+  .loginButton {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .loginIcon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .loginText {
+    font-size: 0.875rem;
   }
 }
 

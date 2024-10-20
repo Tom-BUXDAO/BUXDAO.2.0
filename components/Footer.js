@@ -2,28 +2,31 @@ import React, { useCallback, useEffect, useState } from 'react'
 import Image from 'next/image'
 import styles from './Footer.module.css'
 
-const NavItem = React.memo(({ icon, text, onClick, isActive, isLandscape }) => {
+const NavItem = React.memo(({ icon, text, onClick, isActive, isMobilePortrait, isDesktop }) => {
   return (
-    <li className="px-1">
+    <li className={isMobilePortrait ? "px-1" : "px-2"}>
       <button 
         onClick={() => onClick(text)}
-        className={`flex flex-row items-center justify-center text-base group transition-all duration-300
-                    ${isActive ? 'text-yellow-400' : 'text-white hover:bg-neon-pink'}`}
+        className={`flex items-center justify-center text-base group transition-all duration-300
+                    ${isActive ? 'text-yellow-400' : 'text-white hover:bg-neon-pink'}
+                    ${isDesktop ? styles.desktopButton : ''}`}
         style={{
-          padding: isLandscape ? '5px 6px' : '8px 10px',
+          padding: isMobilePortrait ? '5px' : (isDesktop ? '10px 12px' : '8px 10px'),
           backgroundColor: 'transparent',
         }}
       >
         <Image 
           src={`/images/${icon}.svg`} 
           alt={`${text} icon`} 
-          width={isLandscape ? 18 : 24}
-          height={isLandscape ? 18 : 24}
-          className={`mr-1 transition-all duration-300 ${
+          width={isDesktop ? 28 : 24}
+          height={isDesktop ? 28 : 24}
+          className={`transition-all duration-300 ${
             isActive ? 'filter brightness-150 saturate-200' : 'group-hover:filter group-hover:brightness-150'
           }`}
         />
-        <span className={`transition-colors duration-300 group-hover:text-white ${isLandscape ? 'text-xs' : 'text-sm'}`}>{text}</span>
+        {!isMobilePortrait && (
+          <span className={`transition-colors duration-300 group-hover:text-white ml-2 ${isDesktop ? 'text-base' : 'text-sm'}`}>{text}</span>
+        )}
       </button>
     </li>
   )
@@ -41,11 +44,13 @@ const navItems = [
 ]
 
 function Footer({ currentWall, setCurrentWall }) {
-  const [isLandscape, setIsLandscape] = useState(false);
+  const [isMobilePortrait, setIsMobilePortrait] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
     const checkOrientation = () => {
-      setIsLandscape(window.innerHeight <= 500 && window.innerWidth > window.innerHeight);
+      setIsMobilePortrait(window.innerHeight > window.innerWidth && window.innerWidth < 768);
+      setIsDesktop(window.innerWidth >= 1024);
     };
 
     checkOrientation();
@@ -60,17 +65,18 @@ function Footer({ currentWall, setCurrentWall }) {
   }, [setCurrentWall]);
 
   return (
-    <footer className={`${styles.footer} bg-primary bg-opacity-80`}>
+    <footer className={`${styles.footer} ${isMobilePortrait ? styles.footerMobilePortrait : ''} bg-primary bg-opacity-80`}>
       <div className={`${styles.footerContent} w-full mx-auto px-[3vw]`}>
         <nav className="w-full">
-          <ul className="flex justify-center items-center space-x-2">
+          <ul className={`flex ${isMobilePortrait ? 'justify-around' : 'justify-center space-x-2'} items-center`}>
             {navItems.map((item) => (
               <NavItem 
                 key={item.text} 
                 {...item} 
                 onClick={handleNavClick}
                 isActive={currentWall === item.text}
-                isLandscape={isLandscape}
+                isMobilePortrait={isMobilePortrait}
+                isDesktop={isDesktop}
               />
             ))}
           </ul>

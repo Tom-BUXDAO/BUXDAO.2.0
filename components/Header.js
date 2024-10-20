@@ -1,11 +1,24 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import styles from './Header.module.css'
 
 function Header() {
+  const [isPortrait, setIsPortrait] = useState(false);
+
+  useEffect(() => {
+    const checkOrientation = () => {
+      setIsPortrait(window.innerHeight > window.innerWidth);
+    };
+
+    checkOrientation();
+    window.addEventListener('resize', checkOrientation);
+
+    return () => window.removeEventListener('resize', checkOrientation);
+  }, []);
+
   return (
-    <header className={`fixed top-0 left-0 right-0 bg-primary bg-opacity-80 text-white w-full z-10 ${styles.header}`}>
+    <header className={`fixed top-0 left-0 right-0 bg-primary bg-opacity-80 text-white w-full z-10 ${styles.header} ${isPortrait ? styles.headerPortrait : ''}`}>
       <div className="w-full mx-auto px-[3vw]">
         <div className="flex items-center justify-between h-full">
           <Link href="/" className="flex items-center">
@@ -15,8 +28,8 @@ function Header() {
                   key="logo-image"
                   src="/images/logo.png" 
                   alt="BUX DAO Logo" 
-                  width={100}
-                  height={100}
+                  width={isPortrait ? 60 : 100}
+                  height={isPortrait ? 60 : 100}
                   priority
                   className={`z-0 filter blur-[2px] transition-all duration-300 ${styles.logoImage}`}
                 />
@@ -32,9 +45,9 @@ function Header() {
             <Image 
               src="/images/login.svg"
               alt="Login"
-              width={28}
-              height={28}
-              className={`mr-3 ${styles.loginIcon}`}
+              width={isPortrait ? 20 : 28}
+              height={isPortrait ? 20 : 28}
+              className={`mr-2 ${styles.loginIcon}`}
             />
             <span className={styles.loginText}>Login</span>
           </button>

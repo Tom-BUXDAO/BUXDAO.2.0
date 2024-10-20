@@ -1,5 +1,5 @@
 .footer {
-  height: 120px; /* Match the header height */
+  height: 120px;
   color: white;
   text-align: center;
   width: 100%;
@@ -27,8 +27,28 @@
   font-weight: bold;
 }
 
+.footerMobilePortrait {
+  height: 80px;
+}
+
+.desktopButton {
+  font-size: 1.125rem; /* Slightly larger font size for desktop */
+}
+
 @media screen and (max-height: 500px) and (orientation: landscape) {
   .footer {
     height: 60px;
+  }
+}
+
+@media screen and (max-width: 767px) and (orientation: portrait) {
+  .footer {
+    height: 80px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .footer {
+    height: 130px; /* Slightly taller footer for desktop */
   }
 }
