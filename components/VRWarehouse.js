@@ -111,49 +111,41 @@ function VRScene({ currentWall }) {
 function VRWarehouse({ currentWall, setCurrentWall }) {
   const canvasRef = useRef(null);
   const controlsRef = useRef(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const lastPositionRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (canvas) {
+    if (canvas && controlsRef.current) {
       canvas.style.touchAction = 'none'; // Prevents default touch actions
-
-      let isDragging = false;
-      let previousTouch = null;
 
       const handleStart = (e) => {
         if (e.target.closest(`.${styles['vr-wall-interactive']}`)) {
           return;
         }
-        isDragging = true;
-        if (e.type === 'touchstart') {
-          previousTouch = e.touches[0];
-        }
+        setIsDragging(true);
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        lastPositionRef.current = { x: clientX, y: clientY };
       };
 
       const handleMove = (e) => {
         if (!isDragging) return;
         
-        if (e.type === 'touchmove') {
-          const touch = e.touches[0];
-          const movementX = touch.clientX - previousTouch.clientX;
-          const movementY = touch.clientY - previousTouch.clientY;
-          previousTouch = touch;
-          
-          if (controlsRef.current) {
-            controlsRef.current.rotateLeft(movementX * 0.005);
-            controlsRef.current.rotateUp(movementY * 0.005);
-          }
-        } else {
-          if (controlsRef.current) {
-            controlsRef.current.rotateLeft(e.movementX * 0.005);
-            controlsRef.current.rotateUp(e.movementY * 0.005);
-          }
-        }
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        
+        const deltaX = clientX - lastPositionRef.current.x;
+        const deltaY = clientY - lastPositionRef.current.y;
+        
+        controlsRef.current.rotateLeft(deltaX * 0.005);
+        controlsRef.current.rotateUp(deltaY * 0.005);
+        
+        lastPositionRef.current = { x: clientX, y: clientY };
       };
 
       const handleEnd = () => {
-        isDragging = false;
-        previousTouch = null;
+        setIsDragging(false);
       };
 
       canvas.addEventListener('mousedown', handleStart);
@@ -162,6 +154,7 @@ function VRWarehouse({ currentWall, setCurrentWall }) {
       canvas.addEventListener('touchmove', handleMove);
       canvas.addEventListener('mouseup', handleEnd);
       canvas.addEventListener('touchend', handleEnd);
+      canvas.addEventListener('mouseleave', handleEnd);
 
       return () => {
         canvas.removeEventListener('mousedown', handleStart);
@@ -170,9 +163,10 @@ function VRWarehouse({ currentWall, setCurrentWall }) {
         canvas.removeEventListener('touchmove', handleMove);
         canvas.removeEventListener('mouseup', handleEnd);
         canvas.removeEventListener('touchend', handleEnd);
+        canvas.removeEventListener('mouseleave', handleEnd);
       };
     }
-  }, []);
+  }, [isDragging]);
 
   return (
     <div style={{ width: '100%', height: '100%', position: 'relative' }} className={styles['vr-draggable']}>
